@@ -30,8 +30,13 @@ yargs.command({
 yargs.command({
     command: 'remove',
     describe: "Remove a note",
-    handler: function (){
-        console.log(chalk.red.bold.inverse("Removing a note..."))
+    builder:{
+        title: {describe:"Removes a note",
+        demandOption: true,
+        type: "string"}
+    },
+    handler: function (argv){
+        notes.removeNote(argv.title)
     }
 })
 // --------
