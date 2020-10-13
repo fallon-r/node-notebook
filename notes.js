@@ -2,11 +2,13 @@ const chalk = require('chalk')
 const fs = require('fs');
 
 
-function getNotes() { return "Your notes..." }
+const getNotes = () => { 
+    return "Your notes..." 
+}
 
 // Save notes brain
 
-const saveNotes = function (notes) {
+const saveNotes =  (notes) => {
     const dataJSON = JSON.stringify(notes);
     fs.writeFileSync("notes.json", dataJSON)
 }
@@ -14,7 +16,7 @@ const saveNotes = function (notes) {
 
 
 // Load notes brain 
-const loadNotes = function () {
+const loadNotes = () => {
     try {
         const dataBuffer = fs.readFileSync("notes.json")
         const dataJSON = dataBuffer.toString();
@@ -23,16 +25,26 @@ const loadNotes = function () {
         return []
     }
 }
-// ------ Load note end 
+// ------ Load note end
+
+// List note brain
+const listNote = () => {
+    const notes = loadNotes();
+    console.log(chalk.bgBlueBright.white.italic("Your Notes:"));
+
+    notes.forEach((note) => { console.log(chalk.cyanBright.underline("-" + note.title))})
+
+
+}
+
+// ---- list note end
 
 // Add note brain
-const addNote = function (title, body) {
+const addNote =  (title, body) => {
     const notes = loadNotes()
 
     // check for dup titles 
-    const duplicates = notes.filter(function (note) {
-        return note.title === title
-    })
+    const duplicates = notes.filter( (note) =>  note.title === title)
 
     if (duplicates.length === 0) {
 
@@ -44,7 +56,7 @@ const addNote = function (title, body) {
 
 
         saveNotes(notes);
-        console.log(chalk.greenBright.inverse.italic("Note Saved Successfully"))
+        console.log(chalk.bgGreenBright.white.italic("Note Saved Successfully"))
     } else {
         console.log(chalk.red.bold.inverse("Need unique title"))
     }
@@ -57,15 +69,13 @@ const addNote = function (title, body) {
 const removeNote= function (title){
     const notes = loadNotes();
     
-    const keepers = notes.filter(function(note){
-        return note.title !== title
-    })
+    const keepers = notes.filter((note) => note.title !== title)
 
-    if (keepers.length !== 0){
-        console.log(chalk.underline.bgRedBright.white(title) + chalk.bgRedBright.whiteBright(" does not exist."))
+    if (keepers.length < notes.length){
+        console.log(chalk.underline.bgRedBright.white(title) + chalk.bgRedBright.whiteBright(" was removed."))
     } else {
 
-        console.log(chalk.underline.bgWhiteBright.red(title) + chalk.bgWhiteBright.redBright(" was removed."))
+        console.log(chalk.underline.bgWhiteBright.red(title) + chalk.bgWhiteBright.redBright(" does not exist."))
     }
 
     saveNotes(keepers)
@@ -74,8 +84,11 @@ const removeNote= function (title){
 
 
 
+
+
 module.exports = {
     getNotes: getNotes,
     addNote: addNote,
-    removeNote: removeNote
+    removeNote: removeNote,
+    listNote: listNote
 }
