@@ -21,8 +21,8 @@ yargs.command({
         }
     },
     handler: function (argv){
-        console.log(chalk.green.bold("Title:") + chalk.green.inverse.bold(argv.title))
-        console.log(chalk.green.bold("Body:") + chalk.green.inverse.bold(argv.body))
+        notes.addNote(argv.title, argv.body)
+
     }
 })
 // -------
