@@ -31,12 +31,8 @@ const loadNotes = () => {
 const listNote = () => {
     const notes = loadNotes();
     console.log(chalk.bgBlueBright.white.italic("Your Notes:"));
-
     notes.forEach((note) => { console.log(chalk.cyanBright.underline("-" + note.title))})
-
-
 }
-
 // ---- list note end
 
 // Add note brain
@@ -44,17 +40,16 @@ const addNote =  (title, body) => {
     const notes = loadNotes()
 
     // check for dup titles 
-    const duplicates = notes.filter( (note) =>  note.title === title)
+    const duplicate = notes.find( (note) =>  note.title === title);
 
-    if (duplicates.length === 0) {
+
+    if (!duplicate) {
 
         // logic for pushing
         notes.push({
             title: title,
             body: body
         })
-
-
         saveNotes(notes);
         console.log(chalk.bgGreenBright.white.italic("Note Saved Successfully"))
     } else {
@@ -66,7 +61,7 @@ const addNote =  (title, body) => {
 // -----add note end
 
 // Remove note brain
-const removeNote= function (title){
+const removeNote=  (title) => {
     const notes = loadNotes();
     
     const keepers = notes.filter((note) => note.title !== title)
@@ -82,7 +77,19 @@ const removeNote= function (title){
 }
 // --- remove end
 
+// read brain
+const readNote = (title)=>{
+    const notes = loadNotes();
+    
+    const toRead = notes.find((note)=> note.title === title)
 
+    console.log(toRead.title)
+
+
+
+}
+
+// --- end read
 
 
 
@@ -90,5 +97,6 @@ module.exports = {
     getNotes: getNotes,
     addNote: addNote,
     removeNote: removeNote,
-    listNote: listNote
+    listNote: listNote,
+    readNote : readNote
 }
