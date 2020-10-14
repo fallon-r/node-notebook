@@ -51,7 +51,12 @@ yargs.command({
 yargs.command({
     command: 'read',
     describe: "Read Notes",
-    handler() {console.log(chalk.blueBright.bold.inverse("Reading your notes:"))}
+    builder:{
+        title: {describe:"Reads a note",
+        demandOption: true,
+        type: "string"}
+    },
+    handler(argv) {notes.readNote(argv.title)}
 })
 // -------
 

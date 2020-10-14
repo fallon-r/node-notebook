@@ -83,7 +83,14 @@ const readNote = (title)=>{
     
     const toRead = notes.find((note)=> note.title === title)
 
-    console.log(toRead.title)
+
+    if (toRead){
+    console.log(chalk.underline.bgGreenBright.yellowBright(toRead.title)) 
+    console.log(chalk.yellowBright(toRead.body))
+    } else{
+
+        console.log(chalk.underline.bgRedBright.white("Note does not exist!"))
+    }
 
 
 
